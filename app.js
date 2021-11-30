@@ -60,3 +60,29 @@ https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance
 // }
 
 // you got this, Phil
+
+const textDisplay = document.querySelector("#text");
+const speedBtn = document.querySelector("#speed");
+const readBtn = document.querySelector(".read");
+const pauseBtn = document.querySelector(".pause");
+const stopBtn = document.querySelector(".stop");
+
+// reading Functionality
+
+readBtn.addEventListener("click", () => {
+  readText(textDisplay.value);
+});
+
+const utterance = new SpeechSynthesisUtterance();
+
+// the very important readText function
+
+function readText(readText) {
+  utterance.text = readText;
+  utterance.rate = speedBtn.value || 1;
+  textDisplay.disabled = true;
+  speechSynthesis.speak(utterance);
+}
+
+// ba wit da ba da dang da dang diggy diggy
+// diggy said the boogie said up jump the boogie
