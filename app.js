@@ -73,11 +73,25 @@ readBtn.addEventListener("click", () => {
   readText(textDisplay.value);
 });
 
+// pause functionality
+
+pauseBtn.addEventListener("click", pauseText);
+
 const utterance = new SpeechSynthesisUtterance();
+
+utterance.addEventListener("end", () => {
+  textDisplay.disabled = false;
+});
 
 // the very important readText function
 
 function readText(readText) {
+  if (speechSynthesis.paused && speechSynthesis.speaking) {
+    return speechSynthesis.resume();
+  }
+
+  if (speechSynthesis.speaking) return;
+
   utterance.text = readText;
   utterance.rate = speedBtn.value || 1;
   textDisplay.disabled = true;
@@ -86,3 +100,9 @@ function readText(readText) {
 
 // ba wit da ba da dang da dang diggy diggy
 // diggy said the boogie said up jump the boogie
+
+// the pauseText function
+
+function pauseText() {
+  if (speechSynthesis.speaking) speechSynthesis.pause();
+}
