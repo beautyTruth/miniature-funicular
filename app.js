@@ -66,6 +66,7 @@ const speedBtn = document.querySelector("#speed");
 const readBtn = document.querySelector(".read");
 const pauseBtn = document.querySelector(".pause");
 const stopBtn = document.querySelector(".stop");
+let currentChar;
 
 // reading Functionality
 
@@ -77,10 +78,25 @@ readBtn.addEventListener("click", () => {
 
 pauseBtn.addEventListener("click", pauseText);
 
+// stop functionality
+
+stopBtn.addEventListener("click", stopText);
+
+// speed input functionality
+
+speedBtn.addEventListener("input", () => {
+  stopText();
+  readText(utterance.text.substring(currentChar));
+});
+
 const utterance = new SpeechSynthesisUtterance();
 
 utterance.addEventListener("end", () => {
   textDisplay.disabled = false;
+});
+
+utterance.addEventListener("boundary", (e) => {
+  currentChar = e.charIndex;
 });
 
 // the very important readText function
@@ -105,4 +121,11 @@ function readText(readText) {
 
 function pauseText() {
   if (speechSynthesis.speaking) speechSynthesis.pause();
+}
+
+// the stopText function
+
+function stopText() {
+  speechSynthesis.resume();
+  speechSynthesis.cancel();
 }
